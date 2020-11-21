@@ -282,36 +282,15 @@ void circle(ref float R, ref float G, ref float B, ImageContext imageContext) {
 
 /* Transform image to a drawn circle. */
 formula.pixelTransform0 = (in ImageContext ic, ref float R, ref float G, ref float B) => {
+  /* This method isn't supposed to be called in this task at all. */
+  return false;
+};
+
+/* Unexpected art */
+formula.pixelCreate = (in ImageContext ic, out float R, out float G, out float B) => {
   R = 1.0f;
   G = 1.0f;
   B = 1.0f;
 
   circle(ref R, ref G, ref B, ic);
-
-  // Output color was modified.
-  return true;
-};
-
-/* Unexpected art */
-formula.pixelCreate = (in ImageContext ic, out float R, out float G, out float B) => {
-  int centX = ic.width / 2;
-  int centY = ic.height / 2;
-
-  if (ic.x == centX && ic.y == centY) {
-    R = 0.0f;
-    G = 0.0f;
-    B = 0.0f;
-    return;
-  }
-
-  if (Math.Sqrt((centX - ic.x) ^ 2 + (centY - ic.y) ^ 2) >= 4) {
-    R = 0.0f;
-    G = 0.0f;
-    B = 0.0f;
-  }
-  else {
-    R = 1.0f;
-    G = 1.0f;
-    B = 1.0f;
-  }
 };
